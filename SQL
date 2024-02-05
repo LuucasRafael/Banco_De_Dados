@@ -1,0 +1,283 @@
+-- phpMyAdmin SQL Dump
+-- version 5.1.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Tempo de geração: 31-Jan-2024 às 16:44
+-- Versão do servidor: 10.4.19-MariaDB
+-- versão do PHP: 8.0.7
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Banco de dados: aula11
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela clientes
+--
+
+CREATE TABLE clientes (
+  ClientesID int(11) NOT NULL,
+  NomeCli varchar(50) NOT NULL,
+  IdadeCli int(11) NOT NULL,
+  EnderecoCli varchar(50) NOT NULL,
+  TelefoneCli varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela clientes
+--
+
+INSERT INTO clientes (ClientesID, NomeCli, IdadeCli, EnderecoCli, TelefoneCli) VALUES
+(1, 'Jasinto', 24, 'Rua dos Desesperados', '5555-2222'),
+(2, 'Nego Ney', 15, 'Rua dos Afogados', '4002-8922'),
+(3, 'Raul Gill', 90, 'Agamenon Magalhães', '3333-9999'),
+(4, 'Silvio Santos', 100, 'Av. SBT', '6669-6668');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela funcionarios
+--
+
+CREATE TABLE funcionarios (
+  IDFuncio int(11) NOT NULL,
+  Nome varchar(45) NOT NULL,
+  Telefone varchar(20) NOT NULL,
+  Cargo varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela funcionarios
+--
+
+INSERT INTO funcionarios (IDFuncio, Nome, Telefone, Cargo) VALUES
+(1, 'Luciano', '8665-2105', 'Vendedor'),
+(2, 'Felipe', '8832-2568', 'Vendedor'),
+(3, 'Gustavo', '8936-4582', 'Vendedor'),
+(4, 'Jessica', '8736-5493', 'Vendedora'),
+(5, 'Roberta', '8564-8945', 'Gerente'),
+(6, 'sem funcionario', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela impre_entrega
+--
+
+CREATE TABLE impre_entrega (
+  IDImpre_Entrega int(11) NOT NULL,
+  Nomeimpre varchar(45) DEFAULT NULL,
+  ValorEntraga decimal(10,2) DEFAULT NULL,
+  RegiaoEntrega varchar(45) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela impre_entrega
+--
+
+INSERT INTO impre_entrega (IDImpre_Entrega, Nomeimpre, ValorEntraga, RegiaoEntrega) VALUES
+(1, 'Correio', '12.65', 'Nordeste '),
+(2, 'Sedex', '14.55', 'Norte'),
+(3, 'UPS', '16.99', 'Centro-Oeste '),
+(4, 'Fedex', '18.81', 'Sul'),
+(5, 'GCB', '14.99', 'Sudeste');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela produtos
+--
+
+CREATE TABLE produtos (
+  ProdutosID int(11) NOT NULL,
+  NomeProd varchar(50) NOT NULL,
+  QuantidadeProd int(11) NOT NULL,
+  ValorProd varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela produtos
+--
+
+INSERT INTO produtos (ProdutosID, NomeProd, QuantidadeProd, ValorProd) VALUES
+(1, 'boné', 50, '300'),
+(2, 'camisa', 50, '200'),
+(3, 'bermuda', 100, '250'),
+(4, 'cuecas', 500, '100');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela tipodecomra
+--
+
+CREATE TABLE tipodecomra (
+  TipoDeComraID int(11) NOT NULL,
+  VendasID int(11) NOT NULL,
+  Presencial int(11) NOT NULL,
+  Online int(11) NOT NULL,
+  IDFuncio int(11) DEFAULT NULL,
+  IDImpre_Etrega int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela tipodecomra
+--
+
+INSERT INTO tipodecomra (TipoDeComraID, VendasID, Presencial, Online, IDFuncio, IDImpre_Etrega) VALUES
+(1, 1, 0, 2, NULL, 2),
+(2, 2, 1, 0, 4, NULL),
+(3, 3, 1, 0, 3, NULL),
+(4, 4, 1, 0, 2, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela vendas
+--
+
+CREATE TABLE vendas (
+  VendasID int(11) NOT NULL,
+  ProdutosID int(11) NOT NULL,
+  QuantidadeProd int(11) NOT NULL,
+  ClientesID int(11) NOT NULL,
+  TipoDeComraID int(11) DEFAULT NULL,
+  ID_Entrega int(11) DEFAULT NULL,
+  ValorTotal decimal(10,2) NOT NULL,
+  ID_Funcio int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela vendas
+--
+
+INSERT INTO vendas (VendasID, ProdutosID, QuantidadeProd, ClientesID, TipoDeComraID, ID_Entrega, ValorTotal, ID_Funcio) VALUES
+(1, 1, 2, 1, 2, 2, '614.00', 6),
+(2, 2, 2, 3, 1, NULL, '400.00', 4),
+(3, 3, 1, 4, 1, NULL, '250.00', 3),
+(4, 4, 1, 2, 1, NULL, '100.00', 2);
+
+--
+-- Índices para tabelas despejadas
+--
+
+--
+-- Índices para tabela clientes
+--
+ALTER TABLE clientes
+  ADD PRIMARY KEY (ClientesID);
+
+--
+-- Índices para tabela funcionarios
+--
+ALTER TABLE funcionarios
+  ADD PRIMARY KEY (IDFuncio);
+
+--
+-- Índices para tabela impre_entrega
+--
+ALTER TABLE impre_entrega
+  ADD PRIMARY KEY (IDImpre_Entrega);
+
+--
+-- Índices para tabela produtos
+--
+ALTER TABLE produtos
+  ADD PRIMARY KEY (ProdutosID);
+
+--
+-- Índices para tabela tipodecomra
+--
+ALTER TABLE tipodecomra
+  ADD PRIMARY KEY (TipoDeComraID),
+  ADD KEY IDFuncio (IDFuncio),
+  ADD KEY IDImpre_Etrega (IDImpre_Etrega);
+
+--
+-- Índices para tabela vendas
+--
+ALTER TABLE vendas
+  ADD PRIMARY KEY (VendasID),
+  ADD KEY ClientesID (ClientesID),
+  ADD KEY ProdutosID (ProdutosID),
+  ADD KEY ID_Entrega (ID_Entrega),
+  ADD KEY TipoDeComraID (TipoDeComraID),
+  ADD KEY ID_Funcio (ID_Funcio);
+
+--
+-- AUTO_INCREMENT de tabelas despejadas
+--
+
+--
+-- AUTO_INCREMENT de tabela clientes
+--
+ALTER TABLE clientes
+  MODIFY ClientesID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de tabela funcionarios
+--
+ALTER TABLE funcionarios
+  MODIFY IDFuncio int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de tabela impre_entrega
+--
+ALTER TABLE impre_entrega
+  MODIFY IDImpre_Entrega int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de tabela produtos
+--
+ALTER TABLE produtos
+  MODIFY ProdutosID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de tabela tipodecomra
+--
+ALTER TABLE tipodecomra
+  MODIFY TipoDeComraID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de tabela vendas
+--
+ALTER TABLE vendas
+  MODIFY VendasID int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Restrições para despejos de tabelas
+--
+
+--
+-- Limitadores para a tabela tipodecomra
+--
+ALTER TABLE tipodecomra
+  ADD CONSTRAINT tipodecomra_ibfk_1 FOREIGN KEY (IDFuncio) REFERENCES funcionarios (IDFuncio),
+  ADD CONSTRAINT tipodecomra_ibfk_2 FOREIGN KEY (IDImpre_Etrega) REFERENCES impre_entrega (IDImpre_Entrega);
+
+--
+-- Limitadores para a tabela vendas
+--
+ALTER TABLE vendas
+  ADD CONSTRAINT vendas_ibfk_1 FOREIGN KEY (ClientesID) REFERENCES clientes (ClientesID),
+  ADD CONSTRAINT vendas_ibfk_2 FOREIGN KEY (ProdutosID) REFERENCES produtos (ProdutosID),
+  ADD CONSTRAINT vendas_ibfk_3 FOREIGN KEY (ID_Entrega) REFERENCES impre_entrega (IDImpre_Entrega),
+  ADD CONSTRAINT vendas_ibfk_4 FOREIGN KEY (TipoDeComraID) REFERENCES tipodecomra (TipoDeComraID),
+  ADD CONSTRAINT vendas_ibfk_5 FOREIGN KEY (ID_Funcio) REFERENCES funcionarios (IDFuncio);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
